@@ -17,12 +17,11 @@ const LINE2_WORDS = [
 ];
 
 /**
- * CyclingWord — uses CSS keyframe animations to avoid the double-take glitch.
+ * CyclingWord — uses CSS keyframe animations + dynamic width.
  * 
- * Instead of toggling `isTransitioning` state (which causes a flash when
- * React batches the displayWord update with the transition reset), we use
- * a `key`-based approach: each new word gets a fresh element with a CSS
- * enter animation. The old word gets an exit animation via onAnimationEnd.
+ * The container width animates to match each word, so the trailing "it."
+ * flows naturally next to short words ("Ship it.") and long words
+ * ("Personalize it.") instead of staying fixed in one spot.
  */
 function CyclingWord({ words, interval }: { words: string[]; interval: number }) {
   const [current, setCurrent] = useState({ word: words[0], key: 0 });
@@ -30,8 +29,8 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
   const usedIndices = useRef<Set<number>>(new Set([0]));
   const currentIndexRef = useRef(0);
   const keyRef = useRef(0);
-
-  const widestWord = words.reduce((a, b) => (a.length > b.length ? a : b), "");
+  const measureRef = useRef<HTMLSpanElement>(null);
+  const [width, setWidth] = useState<number | undefined>(undefined);
 
   const pickNext = useCallback(() => {
     if (usedIndices.current.size >= words.length - 1) {
@@ -46,14 +45,19 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
     return next;
   }, [words]);
 
+  // Measure width whenever current word changes
+  useEffect(() => {
+    if (measureRef.current) {
+      setWidth(measureRef.current.offsetWidth);
+    }
+  }, [current.word]);
+
   useEffect(() => {
     const timer = setInterval(() => {
       const nextIdx = pickNext();
       keyRef.current += 1;
 
-      // Move current to exiting slot
       setExiting({ word: words[currentIndexRef.current], key: keyRef.current - 1 });
-      // Set new current
       setCurrent({ word: words[nextIdx], key: keyRef.current });
       currentIndexRef.current = nextIdx;
     }, interval);
@@ -64,10 +68,22 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
   return (
     <span
       className="relative inline-flex items-center overflow-hidden"
-      style={{ minWidth: `${widestWord.length * 0.62}em` }}
+      style={{
+        width: width ? `${width}px` : "auto",
+        transition: "width 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+      }}
     >
-      {/* Invisible spacer for stable width */}
-      <span className="invisible font-semibold">{widestWord}</span>
+      {/* Hidden measurer — rendered offscreen to get true pixel width */}
+      <span
+        ref={measureRef}
+        className="invisible absolute whitespace-nowrap font-semibold"
+        aria-hidden="true"
+      >
+        {current.word}
+      </span>
+
+      {/* Invisible spacer for height only (use shortest word) */}
+      <span className="invisible font-semibold whitespace-nowrap">W</span>
 
       {/* Exiting word — slides up and fades out */}
       {exiting && (
@@ -76,7 +92,7 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
           className="absolute inset-0 flex items-center justify-center cycling-exit"
           onAnimationEnd={() => setExiting(null)}
         >
-          <span className="font-semibold">{exiting.word}</span>
+          <span className="font-semibold whitespace-nowrap">{exiting.word}</span>
         </span>
       )}
 
@@ -85,7 +101,7 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
         key={`enter-${current.key}`}
         className="absolute inset-0 flex items-center justify-center cycling-enter"
       >
-        <span className="font-semibold">{current.word}</span>
+        <span className="font-semibold whitespace-nowrap">{current.word}</span>
       </span>
     </span>
   );

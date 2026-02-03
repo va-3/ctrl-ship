@@ -73,7 +73,7 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
       {exiting && (
         <span
           key={`exit-${exiting.key}`}
-          className="absolute inset-0 flex items-center justify-end cycling-exit"
+          className="absolute inset-0 flex items-center justify-center cycling-exit"
           onAnimationEnd={() => setExiting(null)}
         >
           <span className="font-semibold">{exiting.word}</span>
@@ -83,7 +83,7 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
       {/* Current word — slides up from below */}
       <span
         key={`enter-${current.key}`}
-        className="absolute inset-0 flex items-center justify-end cycling-enter"
+        className="absolute inset-0 flex items-center justify-center cycling-enter"
       >
         <span className="font-semibold">{current.word}</span>
       </span>
@@ -93,7 +93,7 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
 
 export default function AnimatedHero() {
   return (
-    <div className="text-center">
+    <div className="text-center max-w-2xl mx-auto">
       <h1
         className="text-2xl md:text-3xl font-semibold tracking-tight flex flex-col items-center justify-center gap-0.5"
         style={{ color: "var(--text)" }}

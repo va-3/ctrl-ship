@@ -60,14 +60,14 @@ export default function NavBar() {
 
   return (
     <nav
-      className="sticky top-0 z-50 h-[48px] sm:h-[52px] backdrop-blur-xl flex items-center justify-between px-3 sm:px-5"
+      className="sticky top-0 z-50 h-[48px] sm:h-[52px] backdrop-blur-xl flex items-center px-3 sm:px-5"
       style={{
         background: "color-mix(in srgb, var(--bg) 85%, transparent)",
         borderBottom: "1px solid var(--border)",
       }}
     >
-      {/* Left: Logo */}
-      <Link href="/" className="flex items-center gap-2 shrink-0 group" onClick={(e) => {
+      {/* Left: Logo — flex-1 to balance with right side */}
+      <Link href="/" className="flex-1 flex items-center gap-2 group" onClick={(e) => {
         e.preventDefault();
         setArrowIndex((prev) => (prev + 1) % ARROW_ROTATIONS.length);
       }}>
@@ -112,9 +112,9 @@ export default function NavBar() {
         </span>
       </Link>
 
-      {/* Center: Tabs in pill container */}
+      {/* Center: Tabs in pill container — shrink-0 keeps it truly centered */}
       <div
-        className="flex items-center gap-0.5 px-1 sm:px-1.5 py-0.5 sm:py-1 rounded-full"
+        className="shrink-0 flex items-center gap-0.5 px-1 sm:px-1.5 py-0.5 sm:py-1 rounded-full"
         style={{
           background: "var(--bg-secondary)",
           border: "1px solid var(--border)",
@@ -143,8 +143,8 @@ export default function NavBar() {
         })}
       </div>
 
-      {/* Right: Credits + Profile */}
-      <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+      {/* Right: Credits + Profile — flex-1 to balance with left side */}
+      <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3">
         <CreditIndicator />
         <ProfileMenu />
       </div>

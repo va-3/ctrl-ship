@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@variant dark (&:is(.dark, .dark *));
+
+/* ═══════════════════════════════════════════════
+   THEME SYSTEM — Light (default) / Dark
+   ═══════════════════════════════════════════════ */
+
+:root {
+  /* Light theme (default) */
+  --bg: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --bg-elevated: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: #f3f4f6;
+  --bg-active: #e5e7eb;
+  --bg-accent: rgba(124, 58, 237, 0.06);
+
+  --text: #111827;
+  --text-secondary: #374151;
+  --text-muted: #9ca3af;
+  --text-faint: #d1d5db;
+
+  --border: #e5e7eb;
+  --border-subtle: #f3f4f6;
+  --border-focus: #a78bfa;
+
+  --accent: #7c3aed;
+  --accent-light: rgba(124, 58, 237, 0.1);
+  --accent-text: #7c3aed;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.1);
+
+  --scrollbar-thumb: rgba(0,0,0,0.1);
+  --scrollbar-hover: rgba(0,0,0,0.2);
+
+  --selection-bg: rgba(124, 58, 237, 0.15);
+  --selection-text: inherit;
+}
+
+.dark {
+  --bg: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #191919;
+  --bg-elevated: #141414;
+  --bg-input: #111111;
+  --bg-hover: #1a1a1a;
+  --bg-active: #262626;
+  --bg-accent: rgba(167, 139, 250, 0.08);
+
+  --text: #f5f5f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
+  --text-faint: #3f3f46;
+
+  --border: #1f1f23;
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-focus: #a78bfa;
+
+  --accent: #a78bfa;
+  --accent-light: rgba(167, 139, 250, 0.12);
+  --accent-text: #c4b5fd;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.4);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.5);
+
+  --scrollbar-thumb: rgba(255,255,255,0.06);
+  --scrollbar-hover: rgba(255,255,255,0.12);
+
+  --selection-bg: rgba(167, 139, 250, 0.3);
+  --selection-text: #ffffff;
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --font-sans: var(--font-space-grotesk), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), "JetBrains Mono", monospace;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-space-grotesk, "Space Grotesk"), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-hover);
+}
+
+/* Selection */
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-text);
+}
+
+/* ═══════════════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════════════ */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-100%); opacity: 0; }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s ease-in-out infinite;
+}
+
+/* Transition utilities */
+.duration-400 {
+  transition-duration: 400ms;
+}
+
+/* Line clamp */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+/* Theme transition for all elements */
+*, *::before, *::after {
+  transition-property: background-color, border-color, box-shadow;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+/* Disable theme transitions on page load */
+.no-transitions *, .no-transitions *::before, .no-transitions *::after {
+  transition: none !important;
+}

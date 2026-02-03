@@ -1,0 +1,46 @@
+{
+  "name": "ctrlship",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "jest",
+    "test:unit": "jest --testPathIgnorePatterns=integration",
+    "test:integration": "jest pipeline.integration --testTimeout=300000",
+    "convex:dev": "npx convex dev",
+    "convex:deploy": "npx convex deploy",
+    "spawn-agent": "tsx scripts/spawn-agent.ts",
+    "coordinator": "tsx scripts/coordinator.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.72.1",
+    "convex": "^1.31.7",
+    "lucide-react": "^0.563.0",
+    "next": "16.1.6",
+    "next-themes": "^0.4.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^17.2.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "jest": "^29.7.0",
+    "tailwindcss": "^4",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

@@ -93,7 +93,7 @@ function CyclingWord({ words, interval }: { words: string[]; interval: number })
 
 export default function AnimatedHero() {
   return (
-    <div className="text-center max-w-2xl mx-auto">
+    <div className="text-center">
       <h1
         className="text-2xl md:text-3xl font-semibold tracking-tight flex flex-col items-center justify-center gap-0.5"
         style={{ color: "var(--text)" }}

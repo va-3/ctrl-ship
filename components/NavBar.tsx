@@ -3,9 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, LayoutDashboard, BookTemplate, Diamond } from "lucide-react";
+import { Home, LayoutDashboard, BookTemplate } from "lucide-react";
 import ProfileMenu from "./ProfileMenu";
-import { useCredits } from "@/lib/use-credits";
 
 // Arrow directions for the Easter egg: right → down → left → up → cycle
 const ARROW_ROTATIONS = [0, 90, 180, 270] as const;
@@ -15,39 +14,6 @@ const NAV_TABS = [
   { href: "/monitor", label: "Dashboard", mobileLabel: "Dash", icon: LayoutDashboard },
   { href: "/templates", label: "Templates", mobileLabel: "Explore", icon: BookTemplate },
 ];
-
-function CreditIndicator() {
-  const { credits, isOwner } = useCredits();
-  const raw = isOwner ? 1000 : (credits === Infinity ? 1000 : credits as number);
-  const indicatorColor = raw > 500 ? "#10b981" : raw > 250 ? "#f59e0b" : "#ef4444";
-  const glowColor = raw > 500 ? "rgba(16,185,129,0.12)" : raw > 250 ? "rgba(245,158,11,0.12)" : "rgba(239,68,68,0.12)";
-  const borderColor = raw > 500 ? "rgba(16,185,129,0.25)" : raw > 250 ? "rgba(245,158,11,0.25)" : "rgba(239,68,68,0.25)";
-
-  return (
-    <div
-      className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full transition-colors duration-500"
-      title={isOwner ? "Owner — unlimited credits" : `${credits} credits remaining`}
-      style={{ background: glowColor, border: `1px solid ${borderColor}` }}
-    >
-      <div className="relative flex items-center justify-center">
-        <Diamond className="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-colors duration-500" style={{ color: indicatorColor }} strokeWidth={2.5} />
-        <div
-          className="absolute inset-0 rounded-full animate-pulse"
-          style={{
-            background: `radial-gradient(circle, ${indicatorColor}30 0%, transparent 70%)`,
-            transform: "scale(2)",
-          }}
-        />
-      </div>
-      <span
-        className="text-[12px] sm:text-[13px] font-semibold tabular-nums transition-colors duration-500"
-        style={{ color: indicatorColor }}
-      >
-        {isOwner ? "∞" : credits === Infinity ? "∞" : (credits as number).toLocaleString()}
-      </span>
-    </div>
-  );
-}
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -143,9 +109,8 @@ export default function NavBar() {
         })}
       </div>
 
-      {/* Right: Credits + Profile — flex-1 to balance with left side */}
+      {/* Right: Profile — flex-1 to balance with left side */}
       <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3">
-        <CreditIndicator />
         <ProfileMenu />
       </div>
     </nav>

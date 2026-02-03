@@ -2,11 +2,13 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Sun, Moon, Settings, LogOut, User } from "lucide-react";
+import { Sun, Moon, Settings, LogOut, User, Diamond } from "lucide-react";
+import { useCredits } from "@/lib/use-credits";
 
 export default function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { credits, isOwner } = useCredits();
   const [mounted, setMounted] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -50,6 +52,17 @@ export default function ProfileMenu() {
           <div className="px-4 py-3" style={{ borderBottom: "1px solid var(--border)" }}>
             <p className="text-sm font-medium" style={{ color: "var(--text)" }}>Guest</p>
             <p className="text-xs mt-0.5" style={{ color: "var(--text-muted)" }}>Sign in to save projects</p>
+          </div>
+
+          {/* Credits */}
+          <div className="px-4 py-3 flex items-center justify-between" style={{ borderBottom: "1px solid var(--border)" }}>
+            <div className="flex items-center gap-2">
+              <Diamond className="w-4 h-4" style={{ color: "#10b981" }} strokeWidth={2} />
+              <span className="text-sm font-medium" style={{ color: "var(--text)" }}>Credits</span>
+            </div>
+            <span className="text-sm font-semibold tabular-nums" style={{ color: "#10b981" }}>
+              {isOwner ? "∞" : credits === Infinity ? "∞" : (credits as number).toLocaleString()}
+            </span>
           </div>
 
           {/* Theme Toggle */}
